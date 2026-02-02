@@ -1,0 +1,40 @@
+# ========= Python =========
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ========= Ambiente virtual =========
+venv/
+env/
+.venv/
+
+# ========= Variáveis de ambiente / chaves =========
+.env
+*.env
+
+# ========= LangChain / LLM =========
+# Cache de embeddings, vetores, etc (se usar FAISS, Chroma, etc)
+chroma/
+faiss_index/
+*.sqlite3
+
+# ========= Logs =========
+*.log
+
+# ========= Testes =========
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ========= Build =========
+build/
+dist/
+*.egg-info/
+
+# ========= VS Code =========
+.vscode/
+
+# ========= Sistema =========
+.DS_Store
+Thumbs.db

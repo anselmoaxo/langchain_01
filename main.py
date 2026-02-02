@@ -30,6 +30,7 @@ prompt = modelo_prompt.format(
 modelo = ChatOpenAI(
     model="gpt-4.1-mini",
     temperature=0.5
-git    
+git
+    
 resposta = modelo.invoke(prompt)
 print(resposta.content)

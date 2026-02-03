@@ -11,7 +11,7 @@ load_dotenv()
 
 api_key = os.getenv("OPENAI_API_KEY")
 
-set_debug(Falsegit)
+set_debug(False)
 class Destino(BaseModel):
     cidade: str = Field("cidade recomendada")
     motivo: str = Field("Motivo da recomendação")

@@ -1,6 +1,8 @@
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 import os
 
 
@@ -12,6 +14,16 @@ modelo = ChatOpenAI(
     model="gpt-4.1-mini",
     temperature=0.5
 )
+
+prompt_sugestao = ChatPromptTemplate(
+    [
+        ('sytem', 'Você é um assistente de viagem que responde perguntas sobre destinos turísticos, seu nome é Sr.Viagens'),
+        ('placeholder', '{historico}'),
+        ('human', '{query}'),
+    ]
+)
+
+cadeia = prompt_sugestao | modelo | StrOutputParser()
 
 lista_perguntas = [
     "Qual a capital da Taiwan?",

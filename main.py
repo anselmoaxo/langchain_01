@@ -11,18 +11,34 @@ load_dotenv()
 
 api_key = os.getenv("OPENAI_API_KEY")
 
-set_debug(True)
+set_debug(Falsegit)
 class Destino(BaseModel):
-    filme: str = Field("Filme recomendado")
+    cidade: str = Field("cidade recomendada")
     motivo: str = Field("Motivo da recomendação")
     
-parseador = JsonOutputParser(pydantic_object=Destino)
+class Restaurantes(BaseModel):
+    cidade: str = Field("cidade recomendada")
+    restaurantes : str = Field("Restaurante recomendados")
+    
+parseador_destino = JsonOutputParser(pydantic_object=Destino)
+parseador_restaurantes = JsonOutputParser(pydantic_object=Restaurantes)
 
 
-modelo_prompt = PromptTemplate(
-    template="Sugira um filme dado meu {interesse}.{saida}",
+destino_prompt = PromptTemplate(
+    template="Sugira uma cidade para visitar {interesse}.{saida}",
     input_variables=["interesse"],
-    partial_variables={"saida": parseador.get_format_instructions()}
+    partial_variables={"saida": parseador_destino.get_format_instructions()}
+)
+
+
+restaurante_prompt = PromptTemplate(
+    template="Sugira uma restaurantes para visitar {cidade}.{saida}",
+    input_variables=["interesse"],
+    partial_variables={"saida": parseador_restaurantes.get_format_instructions()}
+)
+
+prompt_cutural =PromptTemplate(
+    template="Sugira atividades culturais {cidade}."
 )
 
 modelo = ChatOpenAI(
@@ -30,10 +46,14 @@ modelo = ChatOpenAI(
     temperature=0.5
 )
 
-cadeia = modelo_prompt | modelo | parseador
+cadeia1 = destino_prompt | modelo | parseador_destino
+cadeia2 = restaurante_prompt | modelo | parseador_restaurantes
+cadeia3 = prompt_cutural | modelo | StrOutputParser()
+
+cadeia = (cadeia1 | cadeia2 | cadeia3)
 
 resposta = cadeia.invoke(
-    {"interesse": "ficção científica"}
+    {"interesse": "interior de São Paulo"}
 )
 
 print(resposta)

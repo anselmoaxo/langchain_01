@@ -8,6 +8,7 @@ from langchain_core.runnables import RunnableConfig
 import asyncio
 import os
 
+
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 
@@ -16,7 +17,6 @@ modelo = ChatOpenAI(
     temperature=0.5,
     api_key=api_key
 )
-
 prompt_consultor_praia = ChatPromptTemplate.from_messages(
     [
         ("system", "Apresente-se como Sra Praia. Você é uma especialista em viagens com destinoas para praia."),
